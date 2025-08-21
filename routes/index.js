@@ -10,8 +10,9 @@ appRoute.post(
   "/log-in",
   passport.authenticate("local", {
     successRedirect: "/home",
-    failureRedirect: "/log-in",
-    failureFlash: "incorrect email or password. Please check and try again.",
+    // successFlash: "Logged In Success!",
+    failureRedirect: "/",
+    // failureFlash: "incorrect email or password. Please check and try again.",
   })
 );
 appRoute.get("/home", controller.homepageGet);
