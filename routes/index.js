@@ -16,5 +16,5 @@ appRoute.post(
 );
 appRoute.get("/home", controller.homepageGet);
 appRoute.get("/log-out", controller.logOutGet);
-appRoute.get("/club/:id");
+// appRoute.get("/club/:id");
 module.exports = appRoute;

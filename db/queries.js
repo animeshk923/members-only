@@ -1,15 +1,9 @@
 const pool = require("./pool");
 
+// READ Queries
 async function getAllMessages() {
   const { rows } = await pool.query("SELECT * FROM messages;");
   return rows;
-}
-
-async function insertNewMessage(username, text) {
-  await pool.query(
-    `INSERT INTO messages (username, text, date) VALUES ($1, $2, CURRENT_TIMESTAMP);`,
-    [username, text]
-  );
 }
 
 async function getUsername(id) {
@@ -18,14 +12,26 @@ async function getUsername(id) {
 }
 
 async function getPassword(username) {}
-async function deleteAllData() {
-  await pool.query("DROP TABLE messages");
+
+// INSERT Queries
+async function insertUserInfo(firstName, lastName, isAdmin) {
+  await pool.query(
+    "INSERT INTO users (first_name, last_name, isAdmin) VALUES ($1, $2, $3)",
+    [firstName, lastName, isAdmin]
+  );
 }
+
+async function insertUserCredentials(email, password) {
+  await pool.query(
+    "INSERT INTO credentials (email, password) VALUES ($1, $2)",
+    [email, password]
+  );
+}
+
 module.exports = {
   getAllMessages,
   getUsername,
   getPassword,
-  insertNewMessage,
+  insertUserInfo,
+  insertUserCredentials,
 };
-
-module.exports = { deleteAllData };

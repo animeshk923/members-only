@@ -1,10 +1,12 @@
+require("dotenv").config();
 const { body, validationResult } = require("express-validator");
-
+const bcrypt = require("bcryptjs");
+const db = require("../db/queries");
 // Sign up validation
 const alphaErr = "must only contain letters.";
 const emailErr = "must be a valid email";
-const passErr = "should be at least 6 characters";
-const confirmPassErr = "passwords don't match. please re-enter";
+const passErr = "Password length should be at least 6 characters";
+const confirmPassErr = "Passwords don't match. please re-enter";
 const validateUser = [
   body("firstName").trim().isAlpha().withMessage(`First name ${alphaErr}`),
   body("lastName").trim().isAlpha().withMessage(`Last name ${alphaErr}`),
@@ -33,15 +35,22 @@ async function signUpPost(req, res, next) {
     });
   }
 
-  const { firstName, lastName, isAdmin } = req.body;
+  const { firstName, lastName, email, adminPass } = req.body;
+  let isAdmin = false;
 
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await pool.query(
-      "INSERT INTO users (first_name, last_name, isAdmin) VALUES ($1, $2, $3)",
-      [firstName, lastName, isAdmin]
-    );
-    res.redirect("/welcome");
+
+    if (adminPass === process.env.ADMIN_PASS) {
+      isAdmin = true;
+    } else {
+      isAdmin = false;
+    }
+
+    await db.insertUserInfo(firstName, lastName, isAdmin);
+    await db.insertUserCredentials(email, hashedPassword);
+
+    res.redirect("/home");
   } catch (error) {
     console.error(error);
     next(error);
