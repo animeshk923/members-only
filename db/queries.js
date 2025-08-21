@@ -12,20 +12,20 @@ async function insertNewMessage(username, text) {
   );
 }
 
-async function getUsernameById(id) {
-  const { rows } = await pool.query(
-    "SELECT * FROM messages WHERE id = ($1);",
-    [id]
-  );
+async function getUsername(id) {
+  const { rows } = await pool.query(`SELECT * FROM users WHERE id = $1;`, [id]);
   return rows;
 }
 
+async function getPassword(username) {}
 async function deleteAllData() {
   await pool.query("DROP TABLE messages");
 }
 module.exports = {
   getAllMessages,
+  getUsername,
+  getPassword,
   insertNewMessage,
-  getUsernameById,
-  deleteAllData,
 };
+
+module.exports = { deleteAllData };

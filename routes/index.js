@@ -5,14 +5,16 @@ const passport = require("passport");
 appRoute.get("/", controller.rootGet);
 appRoute.get("/sign-up", controller.signUpGet);
 appRoute.post("/sign-up", controller.validateUser, controller.signUpPost);
-appRoute.get('/log-in', controller.logInGet)
+appRoute.get("/log-in", controller.logInGet);
 appRoute.post(
   "/log-in",
   passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
+    successRedirect: "/home",
+    failureRedirect: "/log-in",
+    failureFlash: "incorrect email or password. Please check and try again.",
   })
 );
+appRoute.get("/home", controller.homepageGet);
 appRoute.get("/log-out", controller.logOutGet);
-
+appRoute.get("/club/:id");
 module.exports = appRoute;

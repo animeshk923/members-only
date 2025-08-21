@@ -34,13 +34,14 @@ async function signUpPost(req, res, next) {
   }
 
   const { firstName, lastName, isAdmin } = req.body;
+
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     await pool.query(
       "INSERT INTO users (first_name, last_name, isAdmin) VALUES ($1, $2, $3)",
       [firstName, lastName, isAdmin]
     );
-    res.redirect("/");
+    res.redirect("/welcome");
   } catch (error) {
     console.error(error);
     next(error);
@@ -59,6 +60,10 @@ async function logOutGet(req, res, next) {
     res.redirect("/");
   });
 }
+
+async function homepageGet(req, res, next) {
+  res.render("home");
+}
 module.exports = {
   rootGet,
   signUpGet,
@@ -66,4 +71,5 @@ module.exports = {
   logInGet,
   logOutGet,
   validateUser,
+  homepageGet,
 };
