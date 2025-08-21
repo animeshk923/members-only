@@ -1,12 +1,38 @@
+const { body, validationResult } = require("express-validator");
+
+// Sign up validation
+const alphaErr = "must only contain letters.";
+const emailErr = "must be a valid email";
+const passErr = "should be at least 6 characters";
+const confirmPassErr = "passwords don't match. please re-enter";
+const validateUser = [
+  body("firstName").trim().isAlpha().withMessage(`First name ${alphaErr}`),
+  body("lastName").trim().isAlpha().withMessage(`Last name ${alphaErr}`),
+  body("email").trim().isEmail().withMessage(`${emailErr}`),
+  body("password").trim().isLength({ min: 6 }).withMessage(passErr),
+  body("confirmPassword")
+    .custom((value, { req }) => {
+      return value === req.body.password;
+    })
+    .withMessage(confirmPassErr),
+];
+
 async function rootGet(req, res) {
-  return res.render("index", { user: req.user });
+  res.render("index", { user: req.user });
 }
 
 async function signUpGet(req, res) {
-  return res.render("sign-up-form");
+  res.render("signup");
 }
 
 async function signUpPost(req, res, next) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).render("signup", {
+      errors: errors.array(),
+    });
+  }
+
   const { firstName, lastName, isAdmin } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -21,6 +47,10 @@ async function signUpPost(req, res, next) {
   }
 }
 
+async function logInGet(req, res) {
+  res.render("login");
+}
+
 async function logOutGet(req, res, next) {
   req.logout((err) => {
     if (err) {
@@ -33,5 +63,7 @@ module.exports = {
   rootGet,
   signUpGet,
   signUpPost,
+  logInGet,
   logOutGet,
+  validateUser,
 };
