@@ -1,11 +1,11 @@
 const serializerFunction = async function (user, done) {
-  done(null, user.id);
+  done(null, user.email);
 };
 
-const deserializerFunction = async function (id, done) {
+const deserializerFunction = async function (email, done) {
   try {
-    const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [
-      id,
+    const { rows } = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
     ]);
     const user = rows[0];
 
