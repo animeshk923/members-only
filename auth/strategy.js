@@ -9,7 +9,7 @@ const verifyCallback = async (email, password, done) => {
     const user = queryResult[0];
 
     if (!user) {
-      return done(null, false, { message: "Incorrect username" });
+      return done(null, false, { message: "Incorrect email" });
     }
 
     const storedPass = user.password;
