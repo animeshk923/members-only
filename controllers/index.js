@@ -2,6 +2,7 @@ require("dotenv").config();
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const db = require("../db/queries");
+
 // Sign up validation
 const alphaErr = "must only contain letters.";
 const emailErr = "must be a valid email";
@@ -28,6 +29,7 @@ async function signUpGet(req, res) {
 }
 
 async function signUpPost(req, res, next) {
+  // validation check
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).render("signup", {
@@ -58,7 +60,16 @@ async function signUpPost(req, res, next) {
 }
 
 async function logInGet(req, res) {
-  res.render("login");
+  const errorMessage = req.session.messages;
+  // if (!errors.isEmpty()) {
+  //   return res.status(400).render("login", {
+  //     errors: errors.array(),
+  //   });
+  // }
+  console.log(errorMessage);
+  console.log(typeof req.session.messages);
+
+  res.render("login", { messages: errorMessage });
 }
 
 async function logOutGet(req, res, next) {

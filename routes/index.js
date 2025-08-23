@@ -2,6 +2,7 @@ const { Router } = require("express");
 const controller = require("../controllers/index");
 const appRoute = Router();
 const passport = require("passport");
+
 appRoute.get("/", controller.rootGet);
 appRoute.get("/sign-up", controller.signUpGet);
 appRoute.post("/sign-up", controller.validateUser, controller.signUpPost);
@@ -10,9 +11,8 @@ appRoute.post(
   "/log-in",
   passport.authenticate("local", {
     successRedirect: "/home",
-    // successFlash: "Logged In Success!",
-    failureRedirect: "/",
-    // failureFlash: "incorrect email or password. Please check and try again.",
+    failureRedirect: "/log-in",
+    failureMessage: true,
   })
 );
 appRoute.get("/home", controller.homepageGet);
