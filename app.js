@@ -8,6 +8,10 @@ const {
   deserializerFunction,
   serializerFunction,
 } = require("./auth/serialization");
+const pgSession = require("connect-pg-simple")(session);
+const pgPool = require("./db/pool");
+
+require("dotenv").config();
 
 const app = express();
 app.set("views", path.join(__dirname, "views"));
@@ -15,7 +19,20 @@ app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false }));
 
-app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+const sessionStore = new pgSession({
+  pool: pgPool, // Connection pool
+  tableName: "sessions", // Use another table-name than the default "session" one
+  // Insert connect-pg-simple options here
+});
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore,
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days
+  })
+);
 
 app.use(passport.session());
 

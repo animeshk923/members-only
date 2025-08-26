@@ -30,16 +30,13 @@ CREATE TABLE IF NOT EXISTS messages (
   FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-INSERT INTO messages (username, text, date) 
-VALUES
-  ('Bryan', 'Hi there!', CURRENT_TIMESTAMP),
-  ('Odin', 'Hello from Asgard!', CURRENT_TIMESTAMP),
-  ('Damon', 'Just checking in.', CURRENT_TIMESTAMP),
-  ('DaDaDasse', 'What a wonderful day!', CURRENT_TIMESTAMP),
-  ('Alice', 'Excited to join!', CURRENT_TIMESTAMP),
-  ('Bob', 'Anyone up for a chat?', CURRENT_TIMESTAMP),
-  ('Charlie', 'Learning Node.js is fun!', CURRENT_TIMESTAMP),
-  ('Diana', 'Happy coding everyone!', CURRENT_TIMESTAMP);
+-- Sessions table
+
+CREATE TABLE sessions (
+    sid VARCHAR(255) NOT NULL PRIMARY KEY,
+    sess JSON NOT NULL,
+    expire TIMESTAMP(6) WITH TIME ZONE NOT NULL
+);
 `;
 
 async function main() {

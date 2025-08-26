@@ -52,7 +52,7 @@ async function signUpPost(req, res, next) {
     await db.insertUserInfo(firstName, lastName, isAdmin);
     await db.insertUserCredentials(email, hashedPassword);
 
-    res.redirect("/home");
+    res.redirect("/login");
   } catch (error) {
     console.error(error);
     next(error);
