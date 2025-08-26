@@ -10,23 +10,51 @@ async function getUserCredentials(email) {
   return rows;
 }
 
+async function getClubDetails() {
+  const { rows } = await pool.query(`SELECT * FROM clubs;`);
+  return rows;
+}
+
+async function getClubNameByUserEmail(clubId) {
+  const { rows } = await pool.query(
+    `SELECT
+  c.club_name AS name
+  FROM
+    clubs AS c
+    INNER JOIN club_members AS cm ON c.club_id = cm.club_id
+  WHERE
+    c.club_id = $1;`,
+    [clubId]
+  );
+  return rows;
+}
+
 // INSERT Queries
 async function insertUserInfo(firstName, lastName, isAdmin) {
   await pool.query(
-    "INSERT INTO users (first_name, last_name, isadmin) VALUES ($1, $2, $3)",
+    `INSERT INTO users (first_name, last_name, isadmin) VALUES ($1, $2, $3)`,
     [firstName, lastName, isAdmin]
   );
 }
 
 async function insertUserCredentials(email, password) {
   await pool.query(
-    "INSERT INTO credentials (email, password) VALUES ($1, $2)",
+    `INSERT INTO credentials (email, password) VALUES ($1, $2)`,
     [email, password]
+  );
+}
+
+async function insertClubMember(email, clubId) {
+  await pool.query(
+    `INSERT INTO club_members (club_id, members) VALUES ($1, $2)`,
+    [clubId, email]
   );
 }
 
 module.exports = {
   getUserCredentials,
+  getClubDetails,
   insertUserInfo,
   insertUserCredentials,
+  insertClubMember,
 };

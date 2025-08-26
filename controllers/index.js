@@ -21,6 +21,7 @@ const validateUser = [
 ];
 
 async function rootGet(req, res) {
+  console.log("req.user: ", req.user);
   res.render("index", { user: req.user });
 }
 
@@ -72,10 +73,11 @@ async function logInGet(req, res) {
   res.render("login", { messages: errorMessage });
 }
 
-async function homepageGet(req, res, next) {
-  console.log("this session details:", req.session.cookie);
-  console.log("user details:", req.user);
-  res.render("home");
+async function homepageGet(req, res) {
+  const clubs = await db.getClubDetails();
+  console.log("req.user:", req.user);
+  console.log("req.user.email:", req.user.email);
+  res.render("home", { clubList: clubs });
 }
 
 async function logOutGet(req, res, next) {
@@ -86,6 +88,25 @@ async function logOutGet(req, res, next) {
     res.redirect("/");
   });
 }
+
+async function clubJoinGet(req, res) {
+  const clubs = await db.getClubDetails();
+  console.log(req.user.email);
+  console.log("typeof:", typeof req.user.email);
+
+  res.render("clubJoin", { clubList: clubs });
+}
+
+async function clubJoinPost(req, res) {
+  const { clubId } = req.body;
+  const userEmail = req.user.email;
+  console.log("club id:", clubId);
+
+  await db.insertClubMember(userEmail, clubId);
+
+  res.redirect("home");
+}
+
 module.exports = {
   rootGet,
   signUpGet,
@@ -94,4 +115,6 @@ module.exports = {
   logOutGet,
   validateUser,
   homepageGet,
+  clubJoinGet,
+  clubJoinPost,
 };

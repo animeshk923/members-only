@@ -21,8 +21,9 @@ app.use(express.urlencoded({ extended: false }));
 
 const sessionStore = new pgSession({
   pool: pgPool,
-  tableName: "sessions",
+  createTableIfMissing: true,
 });
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,

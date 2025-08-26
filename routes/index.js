@@ -2,21 +2,23 @@ const { Router } = require("express");
 const controller = require("../controllers/index");
 const appRoute = Router();
 const passport = require("passport");
-const { isAuth } = require("../auth/authMiddleware");
+const { isAuth, isLoggedIn } = require("../auth/authMiddleware");
 
 appRoute.get("/", controller.rootGet);
-appRoute.get("/sign-up", controller.signUpGet);
-appRoute.post("/sign-up", controller.validateUser, controller.signUpPost);
-appRoute.get("/log-in", controller.logInGet);
+appRoute.get("/signup", controller.signUpGet);
+appRoute.post("/signup", controller.validateUser, controller.signUpPost);
+appRoute.get("/login", controller.logInGet);
 appRoute.post(
-  "/log-in",
+  "/login",
   passport.authenticate("local", {
     successRedirect: "/home",
-    failureRedirect: "/log-in",
+    failureRedirect: "/login",
     failureMessage: true,
   })
 );
 appRoute.get("/home", isAuth, controller.homepageGet);
-appRoute.get("/log-out", controller.logOutGet);
+appRoute.get("/logout", isAuth, controller.logOutGet);
+appRoute.get("/clubJoinGet", isAuth, controller.clubJoinGet);
+appRoute.post("/clubJoinPost", isAuth, controller.clubJoinPost);
 // appRoute.get("/club/:id");
 module.exports = appRoute;

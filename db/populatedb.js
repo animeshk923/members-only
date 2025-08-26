@@ -2,13 +2,15 @@ require("dotenv").config();
 const { Client } = require("pg");
 const fs = require("fs");
 
+// drop table credentials, messages, users, clubs;
+
 const SQL = `
 -- Users table
 
 CREATE TABLE IF NOT EXISTS users (
   user_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  first_name VARCHAR (255),
-  last_name VARCHAR (255),
+  first_name TEXT,
+  last_name TEXT,
   isAdmin BOOLEAN
 );
 
@@ -16,8 +18,8 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS credentials (
   user_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  email VARCHAR (255),
-  password VARCHAR (255),
+  email TEXT,
+  password TEXT,
   FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
@@ -25,18 +27,39 @@ CREATE TABLE IF NOT EXISTS credentials (
 
 CREATE TABLE IF NOT EXISTS messages (
   user_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  title VARCHAR (255),
-  message VARCHAR (255),
+  title TEXT,
+  message TEXT,
   FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
--- Sessions table
+-- Club table
 
-CREATE TABLE sessions (
-    sid VARCHAR(255) NOT NULL PRIMARY KEY,
-    sess JSON NOT NULL,
-    expire TIMESTAMP(6) WITH TIME ZONE NOT NULL
+CREATE TABLE clubs (
+    club_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    club_name TEXT NOT NULL
 );
+
+-- Junction table
+
+CREATE TABLE club_members (
+    club_id INTEGER PRIMARY KEY,
+    members TEXT NOT NULL,
+    FOREIGN KEY (club_id) REFERENCES clubs(club_id) ON DELETE CASCADE
+);
+
+-- Insert dummy data into clubs
+
+INSERT INTO clubs (club_name) VALUES
+('Chess Club'),
+('Photography Society'),
+('Book Lovers Association'),
+('Drama Club'),
+('Science and Technology Club'),
+('Debate Team'),
+('Music Ensemble'),
+('Art and Design Guild'),
+('Environmental Awareness Group'),
+('Coding Club')
 `;
 
 async function main() {

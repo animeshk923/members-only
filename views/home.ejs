@@ -10,15 +10,12 @@
     <!-- have a list of clubs by various users present here -->
     Current active clubs
     <ol>
+      <% clubList.forEach(item => { %>
       <li>
-        <h3><a href="/club/:clubid">Club 1</a></h3>
+        <h3><a href="/club/<%= item.club_id %>"><%= item.club_name %></a></h3>
       </li>
-      <li>
-        <h3><a href="/club/:clubid">Club 2</a></h3>
-      </li>
-      <li>
-        <h3><a href="/club/:clubid">Club 3</a></h3>
-      </li>
+      <% }) %>
     </ol>
+    <a href="/clubJoinGet">Join a club</a>
   </body>
 </html>
