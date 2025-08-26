@@ -72,6 +72,12 @@ async function logInGet(req, res) {
   res.render("login", { messages: errorMessage });
 }
 
+async function homepageGet(req, res, next) {
+  console.log("this session details:", req.session.cookie);
+  console.log("user details:", req.user);
+  res.render("home");
+}
+
 async function logOutGet(req, res, next) {
   req.logout((err) => {
     if (err) {
@@ -79,10 +85,6 @@ async function logOutGet(req, res, next) {
     }
     res.redirect("/");
   });
-}
-
-async function homepageGet(req, res, next) {
-  res.render("home");
 }
 module.exports = {
   rootGet,

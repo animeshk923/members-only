@@ -20,9 +20,8 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 
 const sessionStore = new pgSession({
-  pool: pgPool, // Connection pool
-  tableName: "sessions", // Use another table-name than the default "session" one
-  // Insert connect-pg-simple options here
+  pool: pgPool,
+  tableName: "sessions",
 });
 app.use(
   session({
