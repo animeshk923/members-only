@@ -20,5 +20,6 @@ appRoute.get("/home", isAuth, controller.homepageGet);
 appRoute.get("/logout", isAuth, controller.logOutGet);
 appRoute.get("/clubJoinGet", isAuth, controller.clubJoinGet);
 appRoute.post("/clubJoinPost", isAuth, controller.clubJoinPost);
+// appRoute.get("/messageFormGet", isAuth, controller.messageFormGet);
 // appRoute.get("/club/:id");
 module.exports = appRoute;

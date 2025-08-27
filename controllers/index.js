@@ -63,14 +63,6 @@ async function signUpPost(req, res, next) {
 
 async function logInGet(req, res) {
   const errorMessage = req.session.messages;
-  // if (!errors.isEmpty()) {
-  //   return res.status(400).render("login", {
-  //     errors: errors.array(),
-  //   });
-  // }
-  console.log(errorMessage);
-  console.log(typeof req.session.messages);
-
   res.render("login", { messages: errorMessage });
 }
 
@@ -92,8 +84,6 @@ async function logOutGet(req, res, next) {
 
 async function clubJoinGet(req, res) {
   const clubs = await db.getAllClubDetails();
-  // console.log(req.user.email);
-  // console.log("typeof:", typeof req.user.email);
 
   res.render("clubJoin", { clubList: clubs });
 }
@@ -102,12 +92,6 @@ async function clubJoinPost(req, res) {
   const { clubName, passcode } = req.body;
   const userEmail = req.user.email;
   const clubId = await db.getClubIdByName(clubName);
-  // const passcode = req.body.passcode;
-
-  // console.log(req.body);
-  // console.log(clubName);
-  // console.log(clubId);
-  console.log('password type:', typeof passcode);
 
   switch (clubId) {
     case 1:
@@ -162,10 +146,10 @@ async function clubJoinPost(req, res) {
       res.render("partials/errors", { messages: "club joining failed" });
       break;
   }
-  // console.log("passcode:", passcode.);
-  // console.log("club id:", clubId);
+}
 
-  // res.redirect("home", { messages: "Club Joined Successfully!" });
+async function messageFormGet(req, res) {
+  res.render("newMessage");
 }
 
 module.exports = {
@@ -178,4 +162,5 @@ module.exports = {
   homepageGet,
   clubJoinGet,
   clubJoinPost,
+  messageFormGet,
 };

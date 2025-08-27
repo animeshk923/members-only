@@ -1,4 +1,3 @@
-const { rootGet } = require("../controllers");
 const pool = require("./pool");
 
 // READ Queries

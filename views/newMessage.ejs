@@ -8,13 +8,13 @@
   <body>
     <%- include("partials/errors.ejs") %>
     <h1>Post a NEW Message</h1>
-    <form action="/messagePost" method="POST">
-      <label for="email">Email</label>
-      <input id="email" name="email" placeholder="a@example.com" type="email" />
+    <form action="/messageFormPost" method="POST">
+      <label for="title">Title</label>
+      <input id="title" name="title" placeholder="Post title" type="text" />
       <br /><br />
 
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" />
+      <label for="message">Password</label>
+      <textarea id="message" name="message" rows="10" cols="40"></textarea>
       <br /><br />
 
       <button type="submit">Log In</button>
