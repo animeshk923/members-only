@@ -8,13 +8,24 @@
   <body>
     <form action="/clubJoinPost" method="POST">
       Select a club to join:
-      <select name="clubId" id="clubId">
+      <select name="clubName" id="clubName">
         <option value="">Select</option>
         <% clubList.forEach(item => { %>
-        <option value="<%= item.club_id %>"><%= item.club_name %></option>
+        <option value="<%= item.club_name %>"><%= item.club_name %></option>
         <% }) %>
       </select>
+
+      <br /><br />
+
+      <label for="passcode">Enter Club Passcode</label>
+      <input id="passcode" name="passcode" type="password" required />
+
       <button type="submit">Join</button>
+
+      <p>
+        <em>You'll see homepage if success and error message if it fails</em>
+      </p>
+      <%- include('partials/errors.ejs') %>
     </form>
   </body>
 </html>

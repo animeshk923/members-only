@@ -19,8 +19,17 @@ function isLoggedIn(req, res, next) {
 
 function isClubMember(req, res, next) {} // implement later
 
+const club1 = 1234;
+const club2 = 4321;
+const club3 = 1221;
+const club4 = 1212;
 module.exports = {
   isAuth,
   isAdmin,
   isLoggedIn,
+  isClubMember,
+  club1,
+  club2,
+  club3,
+  club4,
 };

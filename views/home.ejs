@@ -7,12 +7,13 @@
   </head>
   <body>
     <%- include('partials/logout.ejs') %> <br /><br />
+    <%- include('partials/errors.ejs') %> <br /><br />
     <!-- have a list of clubs by various users present here -->
     Current active clubs
     <ol>
       <% clubList.forEach(item => { %>
       <li>
-        <h3><a href="/club/<%= item.club_id %>"><%= item.club_name %></a></h3>
+        <h3><%= item.club_name %></h3>
       </li>
       <% }) %>
     </ol>

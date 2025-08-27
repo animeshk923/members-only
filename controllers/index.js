@@ -2,6 +2,7 @@ require("dotenv").config();
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const db = require("../db/queries");
+const { club1, club2, club3, club4 } = require("../auth/authMiddleware");
 
 // Sign up validation
 const alphaErr = "must only contain letters.";
@@ -74,7 +75,7 @@ async function logInGet(req, res) {
 }
 
 async function homepageGet(req, res) {
-  const clubs = await db.getClubDetails();
+  const clubs = await db.getAllClubDetails();
   console.log("req.user:", req.user);
   console.log("req.user.email:", req.user.email);
   res.render("home", { clubList: clubs });
@@ -90,21 +91,81 @@ async function logOutGet(req, res, next) {
 }
 
 async function clubJoinGet(req, res) {
-  const clubs = await db.getClubDetails();
-  console.log(req.user.email);
-  console.log("typeof:", typeof req.user.email);
+  const clubs = await db.getAllClubDetails();
+  // console.log(req.user.email);
+  // console.log("typeof:", typeof req.user.email);
 
   res.render("clubJoin", { clubList: clubs });
 }
 
 async function clubJoinPost(req, res) {
-  const { clubId } = req.body;
+  const { clubName, passcode } = req.body;
   const userEmail = req.user.email;
-  console.log("club id:", clubId);
+  const clubId = await db.getClubIdByName(clubName);
+  // const passcode = req.body.passcode;
 
-  await db.insertClubMember(userEmail, clubId);
+  // console.log(req.body);
+  // console.log(clubName);
+  // console.log(clubId);
+  console.log('password type:', typeof passcode);
 
-  res.redirect("home");
+  switch (clubId) {
+    case 1:
+      if (Number(passcode) !== club1) {
+        res.render("partials/errors", {
+          messages:
+            "wrong password, try again (TIP: password is in codebase somewhere)",
+        });
+      } else {
+        await db.insertClubMember(userEmail, clubId);
+        res.redirect("home");
+      }
+      break;
+
+    case 2:
+      if (Number(passcode) !== club2) {
+        res.render("partials/errors", {
+          messages:
+            "wrong password, try again (TIP: password is in codebase somewhere",
+        });
+      } else {
+        await db.insertClubMember(userEmail, clubId);
+        res.redirect("home");
+      }
+      break;
+
+    case 3:
+      if (Number(passcode) !== club3) {
+        res.render("partials/errors", {
+          messages:
+            "wrong password, try again (TIP: password is in codebase somewhere",
+        });
+      } else {
+        await db.insertClubMember(userEmail, clubId);
+        res.redirect("home");
+      }
+      break;
+
+    case 4:
+      if (Number(passcode) !== club4) {
+        res.render("partials/errors", {
+          messages:
+            "wrong password, try again (TIP: password is in codebase somewhere",
+        });
+      } else {
+        await db.insertClubMember(userEmail, clubId);
+        res.redirect("home");
+      }
+      break;
+
+    default:
+      res.render("partials/errors", { messages: "club joining failed" });
+      break;
+  }
+  // console.log("passcode:", passcode.);
+  // console.log("club id:", clubId);
+
+  // res.redirect("home", { messages: "Club Joined Successfully!" });
 }
 
 module.exports = {

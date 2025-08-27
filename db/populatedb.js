@@ -2,7 +2,7 @@ require("dotenv").config();
 const { Client } = require("pg");
 const fs = require("fs");
 
-// drop table credentials, messages, users, clubs;
+// drop table credentials, messages, users, clubs, session, club_members;
 
 const SQL = `
 -- Users table
@@ -50,15 +50,9 @@ CREATE TABLE club_members (
 -- Insert dummy data into clubs
 
 INSERT INTO clubs (club_name) VALUES
-('Chess Club'),
-('Photography Society'),
 ('Book Lovers Association'),
-('Drama Club'),
 ('Science and Technology Club'),
-('Debate Team'),
 ('Music Ensemble'),
-('Art and Design Guild'),
-('Environmental Awareness Group'),
 ('Coding Club')
 `;
 

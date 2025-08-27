@@ -6,9 +6,13 @@
     <link rel="stylesheet" href="styles.scss" />
   </head>
   <body>
-    <%- include('partials/errors.ejs') %>
+    <%- include('partials/errors.ejs') %> <% if (locals.user) { %>
+    <h2><a href="/home">Home Page</a></h2>
+
+    <% } else { %>
+
     <h2><a href="/login">Login</a></h2>
     <h2><a href="/signup">Sign Up</a></h2>
-    <h2><a href="/home">Home Page</a></h2>
+    <% } %>
   </body>
 </html>

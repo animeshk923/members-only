@@ -1,3 +1,4 @@
+const { rootGet } = require("../controllers");
 const pool = require("./pool");
 
 // READ Queries
@@ -10,9 +11,17 @@ async function getUserCredentials(email) {
   return rows;
 }
 
-async function getClubDetails() {
+async function getAllClubDetails() {
   const { rows } = await pool.query(`SELECT * FROM clubs;`);
   return rows;
+}
+
+async function getClubIdByName(clubName) {
+  const { rows } = await pool.query(
+    `SELECT * FROM clubs WHERE club_name = $1;`,
+    [clubName]
+  );
+  return rows[0].club_id;
 }
 
 async function getClubNameByUserEmail(clubId) {
@@ -29,7 +38,16 @@ async function getClubNameByUserEmail(clubId) {
   return rows;
 }
 
+async function UserIsClubMember(email) {
+  const { rows } = await pool.query(
+    `SELECT * from club_members WHERE members = $1`,
+    [email]
+  );
+  return rows;
+}
+
 // INSERT Queries
+
 async function insertUserInfo(firstName, lastName, isAdmin) {
   await pool.query(
     `INSERT INTO users (first_name, last_name, isadmin) VALUES ($1, $2, $3)`,
@@ -53,8 +71,11 @@ async function insertClubMember(email, clubId) {
 
 module.exports = {
   getUserCredentials,
-  getClubDetails,
+  getAllClubDetails,
+  getClubNameByUserEmail,
+  getClubIdByName,
   insertUserInfo,
   insertUserCredentials,
   insertClubMember,
+  UserIsClubMember,
 };
