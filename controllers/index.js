@@ -152,6 +152,10 @@ async function messageFormGet(req, res) {
   res.render("newMessage");
 }
 
+async function messageFormPost(req, res) {
+  res.render("newMessage");
+}
+
 module.exports = {
   rootGet,
   signUpGet,
@@ -163,4 +167,5 @@ module.exports = {
   clubJoinGet,
   clubJoinPost,
   messageFormGet,
+  messageFormPost,
 };
