@@ -37,18 +37,6 @@ async function getClubNameByUserEmail(clubId) {
   return rows;
 }
 
-async function UserIsClubMember(email) {
-  const { rows } = await pool.query(
-    `SELECT * from club_members WHERE members = $1`,
-    [email]
-  );
-  if (rows.length > 0) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 async function getAllMessages() {
   const { rows } = await pool.query(`SELECT * from messages;`);
   return rows;
@@ -67,6 +55,26 @@ async function getAuthorByUserId(userId) {
     [userId]
   );
   return rows;
+}
+
+async function userIsClubMember(email) {
+  const { rows } = await pool.query(
+    `SELECT * from club_members WHERE members = $1`,
+    [email]
+  );
+  if (rows.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+async function userIsAdmin(userId) {
+  const { rows } = await pool.query(
+    `SELECT isadmin from users WHERE user_id = $1`,
+    [userId]
+  );
+  return rows[0].isadmin;
 }
 
 // INSERT Queries
@@ -99,6 +107,9 @@ async function insertMessage(userId, title, message, author) {
   );
 }
 
+// DELETE Queries
+// remove member from club || leave club option
+// delete message (only admin)
 module.exports = {
   getUserCredentials,
   getAllClubDetails,
@@ -110,5 +121,6 @@ module.exports = {
   insertUserCredentials,
   insertClubMember,
   insertMessage,
-  UserIsClubMember,
+  userIsClubMember,
+  userIsAdmin,
 };

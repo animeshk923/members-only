@@ -1,12 +1,16 @@
 <ul>
   <% userMessages.forEach(item => { %>
-  <li>
-    <h2><%= item.title %></h2>
-    <% if(locals.isClubMember) { %>
-    <h4><%= item.date %></h4>
-    <h4><%= item.author %></h4>
-    <% } %>
-    <p><%= item.message %></p>
-  </li>
+  <form action="/deleteMessage" method="POST">
+    <li>
+      <h2>Title: <%= item.title %></h2>
+      <% if(locals.isClubMember || locals.isAdmin) { %>
+      <h4>Date and Time: <%= item.date %></h4>
+      <h4>Author: <%= item.author %></h4>
+      <% } %>
+      <p>Message: <%= item.message %></p>
+      <% if (locals.isAdmin) { %> <% } %>
+    </li>
+    <button>Delete message</button>
+  </form>
   <% }) %>
 </ul>
