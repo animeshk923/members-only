@@ -68,9 +68,15 @@ async function logInGet(req, res) {
 
 async function homepageGet(req, res) {
   const clubs = await db.getAllClubDetails();
+  const messages = await db.getAllMessages();
+  const isClubMember = await db.UserIsClubMember(req.user.email);
   console.log("req.user:", req.user);
-  console.log("req.user.email:", req.user.email);
-  res.render("home", { clubList: clubs });
+  // console.log("req.user.email:", req.user.email);
+  res.render("home", {
+    clubList: clubs,
+    userMessages: messages,
+    isClubMember: isClubMember,
+  });
 }
 
 async function logOutGet(req, res, next) {
@@ -153,7 +159,22 @@ async function messageFormGet(req, res) {
 }
 
 async function messageFormPost(req, res) {
-  res.render("newMessage");
+  /**
+   * @type {number}
+   */
+  const userId = req.user.user_id;
+  const { title, message } = req.body;
+  /**
+   * @type {string}
+   */
+  const author = await db.getAuthorByMessage(userId);
+  console.log("userid:", userId);
+  console.log("author:", author);
+  const authorFullName = author[0].first_name + " " + author[0].last_name;
+  console.log("Full Name:", authorFullName);
+
+  await db.insertMessage(userId, title, message, authorFullName);
+  res.redirect("home");
 }
 
 module.exports = {

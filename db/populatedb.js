@@ -26,22 +26,24 @@ CREATE TABLE IF NOT EXISTS credentials (
 -- Messages table
 
 CREATE TABLE IF NOT EXISTS messages (
-  user_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  user_id INTEGER,
   title TEXT,
   message TEXT,
+  date DATE,
+  author TEXT,
   FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 -- Club table
 
-CREATE TABLE clubs (
+CREATE TABLE IF NOT EXISTS clubs (
     club_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     club_name TEXT NOT NULL
 );
 
 -- Junction table
 
-CREATE TABLE club_members (
+CREATE TABLE IF NOT EXISTS club_members (
     club_id INTEGER PRIMARY KEY,
     members TEXT NOT NULL,
     FOREIGN KEY (club_id) REFERENCES clubs(club_id) ON DELETE CASCADE
@@ -49,11 +51,7 @@ CREATE TABLE club_members (
 
 -- Insert dummy data into clubs
 
-INSERT INTO clubs (club_name) VALUES
-('Book Lovers Association'),
-('Science and Technology Club'),
-('Music Ensemble'),
-('Coding Club')
+
 `;
 
 async function main() {

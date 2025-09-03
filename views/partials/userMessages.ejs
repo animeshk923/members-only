@@ -1,0 +1,12 @@
+<ul>
+  <% userMessages.forEach(item => { %>
+  <li>
+    <h2><%= item.title %></h2>
+    <% if(locals.isClubMember) { %>
+    <h4><%= item.date %></h4>
+    <h4><%= item.author %></h4>
+    <% } %>
+    <p><%= item.message %></p>
+  </li>
+  <% }) %>
+</ul>

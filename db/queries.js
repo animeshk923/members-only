@@ -42,6 +42,31 @@ async function UserIsClubMember(email) {
     `SELECT * from club_members WHERE members = $1`,
     [email]
   );
+  if (rows.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+async function getAllMessages() {
+  const { rows } = await pool.query(`SELECT * from messages;`);
+  return rows;
+}
+
+async function getAuthorByMessage(userId) {
+  const { rows } = await pool.query(
+    `
+    SELECT
+      u.first_name,
+      u.last_name
+    FROM
+      users AS u
+      INNER JOIN messages AS m ON u.user_id = m.user_id
+    WHERE
+      m.user_id = $1;`,
+    [userId]
+  );
   return rows;
 }
 
@@ -68,13 +93,23 @@ async function insertClubMember(email, clubId) {
   );
 }
 
+async function insertMessage(userId, title, message, author) {
+  await pool.query(
+    `INSERT INTO messages (user_id, title, message, date, author) VALUES ($1, $2, $3, CURRENT_DATE, $4)`,
+    [userId, title, message, author]
+  );
+}
+
 module.exports = {
   getUserCredentials,
   getAllClubDetails,
   getClubNameByUserEmail,
   getClubIdByName,
+  getAllMessages,
+  getAuthorByMessage,
   insertUserInfo,
   insertUserCredentials,
   insertClubMember,
+  insertMessage,
   UserIsClubMember,
 };
