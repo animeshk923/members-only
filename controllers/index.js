@@ -167,7 +167,7 @@ async function messageFormPost(req, res) {
   /**
    * @type {string}
    */
-  const author = await db.getAuthorByMessage(userId);
+  const author = await db.getAuthorByUserId(userId);
   console.log("userid:", userId);
   console.log("author:", author);
   const authorFullName = author[0].first_name + " " + author[0].last_name;

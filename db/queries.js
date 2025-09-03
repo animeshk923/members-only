@@ -54,7 +54,7 @@ async function getAllMessages() {
   return rows;
 }
 
-async function getAuthorByMessage(userId) {
+async function getAuthorByUserId(userId) {
   const { rows } = await pool.query(
     `
     SELECT
@@ -62,9 +62,8 @@ async function getAuthorByMessage(userId) {
       u.last_name
     FROM
       users AS u
-      INNER JOIN messages AS m ON u.user_id = m.user_id
     WHERE
-      m.user_id = $1;`,
+      u.user_id = $1;`,
     [userId]
   );
   return rows;
@@ -106,7 +105,7 @@ module.exports = {
   getClubNameByUserEmail,
   getClubIdByName,
   getAllMessages,
-  getAuthorByMessage,
+  getAuthorByUserId,
   insertUserInfo,
   insertUserCredentials,
   insertClubMember,
