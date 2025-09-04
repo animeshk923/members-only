@@ -110,6 +110,11 @@ async function insertMessage(userId, title, message, author) {
 // DELETE Queries
 // remove member from club || leave club option
 // delete message (only admin)
+
+async function deleteMessageByMessageId(msgId) {
+  await pool.query(`DELETE FROM messages WHERE msg_id = $1;`, [msgId]);
+}
+
 module.exports = {
   getUserCredentials,
   getAllClubDetails,
@@ -123,4 +128,5 @@ module.exports = {
   insertMessage,
   userIsClubMember,
   userIsAdmin,
+  deleteMessageByMessageId,
 };

@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS credentials (
 -- Messages table
 
 CREATE TABLE IF NOT EXISTS messages (
+  msg_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   user_id INTEGER,
   title TEXT,
   message TEXT,

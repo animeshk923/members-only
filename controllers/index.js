@@ -165,20 +165,24 @@ async function messageFormGet(req, res) {
 }
 
 async function messageFormPost(req, res) {
-  /**
-   * @type {number}
-   */
+  /** @type {number} */
   const userId = req.user.user_id;
-  const { title, message } = req.body;
   /**
-   * @type {string}
+   * @typedef {object} body
+   * @property {string} title
+   * @property {string} message
    */
+  /** @type {body} */
+  const { title, message } = req.body;
+  /** @type {string} */
   const author = await db.getAuthorByUserId(userId);
   const authorFullName = author[0].first_name + " " + author[0].last_name;
 
   await db.insertMessage(userId, title, message, authorFullName);
   res.redirect("home");
 }
+
+async function messageDeletePost(req, res) {}
 
 module.exports = {
   rootGet,
@@ -192,4 +196,5 @@ module.exports = {
   clubJoinPost,
   messageFormGet,
   messageFormPost,
+  messageDeletePost,
 };
