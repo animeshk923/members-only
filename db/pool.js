@@ -9,7 +9,6 @@ module.exports = new Pool({
   ssl: {
     rejectUnauthorized: true,
     ca: fs.readFileSync("./ca.pem").toString(),
-    // ca: fs.readFileSync("./db/ca.pem").toString(),
   },
 });
 

@@ -25,13 +25,14 @@ async function getClubIdByName(clubName) {
 
 async function getClubNameByUserEmail(clubId) {
   const { rows } = await pool.query(
-    `SELECT
-  c.club_name AS name
-  FROM
-    clubs AS c
+    `
+    SELECT
+      c.club_name AS name
+    FROM
+      clubs AS c
     INNER JOIN club_members AS cm ON c.club_id = cm.club_id
-  WHERE
-    c.club_id = $1;`,
+    WHERE
+      c.club_id = $1;`,
     [clubId]
   );
   return rows;
@@ -108,9 +109,10 @@ async function insertMessage(userId, title, message, author) {
 }
 
 // DELETE Queries
-// remove member from club || leave club option
-// delete message (only admin)
 
+// remove member from club || leave club option
+
+// delete message (only admin)
 async function deleteMessageByMessageId(msgId) {
   await pool.query(`DELETE FROM messages WHERE msg_id = $1;`, [msgId]);
 }

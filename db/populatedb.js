@@ -52,7 +52,11 @@ CREATE TABLE IF NOT EXISTS club_members (
 
 -- Insert dummy data into clubs
 
-
+INSERT INTO clubs (club_name) VALUES
+('Book Lovers Association'),
+('Science and Technology Club'),
+('Music Ensemble'),
+('Coding Club');
 `;
 
 async function main() {
@@ -60,8 +64,14 @@ async function main() {
 
   const client = new Client({
     // connectionString: process.argv[2], // pass your connection URI as a argument when running this script
+
+    // PROD DB String
     connectionString: `postgresql://${process.env.AIVEN_DB_USERNAME}:${process.env.AIVEN_DB_PASSWORD}@${process.env.AIVEN_DB_HOSTNAME}:${process.env.AIVEN_DB_PORT}/${process.env.AIVEN_DB}`,
+
+    // LOCAL DB String
     // connectionString: `postgresql://${process.env.LOCAL_DB_USERNAME}:${process.env.LOCAL_DB_PASSWORD}@${process.env.LOCAL_DB_HOSTNAME}:${process.env.LOCAL_DB_PORT}/${process.env.LOCAL_DB}`,
+
+    // alternate method to connect
     // user: process.env.AIVEN_DB_USERNAME,
     // password: process.env.AIVEN_DB_PASSWORD,
     // host: process.env.AIVEN_DB_HOSTNAME,

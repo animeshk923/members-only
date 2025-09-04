@@ -74,8 +74,6 @@ async function homepageGet(req, res) {
   const isAdmin = await db.userIsAdmin(user_id);
   const author = await db.getAuthorByUserId(user_id);
   const authorFullName = author[0].first_name + " " + author[0].last_name;
-  console.log("req.user:", req.user);
-  // console.log("req.user.email:", req.user.email);
   res.render("home", {
     currentUser: authorFullName,
     clubList: clubs,
@@ -184,7 +182,6 @@ async function messageFormPost(req, res) {
 
 async function messageDeletePost(req, res) {
   const { message_id } = req.body;
-  console.log("message id:", message_id);
   await db.deleteMessageByMessageId(message_id);
   res.redirect("home");
 }

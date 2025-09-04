@@ -2,7 +2,7 @@ const { Router } = require("express");
 const controller = require("../controllers/index");
 const appRoute = Router();
 const passport = require("passport");
-const { isAuth, isLoggedIn } = require("../auth/authMiddleware");
+const { isAuth } = require("../auth/authMiddleware");
 
 appRoute.get("/", controller.rootGet);
 appRoute.get("/signup", controller.signUpGet);
@@ -23,5 +23,4 @@ appRoute.post("/clubJoinPost", isAuth, controller.clubJoinPost);
 appRoute.get("/messageFormGet", isAuth, controller.messageFormGet);
 appRoute.post("/messageFormPost", isAuth, controller.messageFormPost);
 appRoute.post("/deleteMessagePost", isAuth, controller.messageDeletePost);
-// appRoute.get("/club/:id");
 module.exports = appRoute;
