@@ -22,6 +22,6 @@ appRoute.get("/clubJoinGet", isAuth, controller.clubJoinGet);
 appRoute.post("/clubJoinPost", isAuth, controller.clubJoinPost);
 appRoute.get("/messageFormGet", isAuth, controller.messageFormGet);
 appRoute.post("/messageFormPost", isAuth, controller.messageFormPost);
-appRoute.post("/deleteMessage", isAuth, controller.messageDeletePost);
+appRoute.post("/deleteMessagePost", isAuth, controller.messageDeletePost);
 // appRoute.get("/club/:id");
 module.exports = appRoute;
