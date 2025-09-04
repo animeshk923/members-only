@@ -184,10 +184,9 @@ async function messageFormPost(req, res) {
 
 async function messageDeletePost(req, res) {
   const { message_id } = req.body;
-  console.log('message id:', message_id);
-  // console.log('message id');
-  res.redirect('home')
-  // await db.deleteMessageByMessageId(message_id);
+  console.log("message id:", message_id);
+  await db.deleteMessageByMessageId(message_id);
+  res.redirect("home");
 }
 
 module.exports = {
